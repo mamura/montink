@@ -1,0 +1,36 @@
+services:
+  app:
+    image: mamura/php-dev:latest
+    container_name: montink
+    labels:
+      - "traefik.enable=true"
+      
+    volumes:
+      - ./src:/src
+    environment:
+      - PROJECT_WEBROOT=/src/public
+    ports:
+      - "80:80"
+      - "5173:5173" # Vite
+
+  mysql:
+    image: mysql:8.0
+    container_name: montink-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: montink
+      MYSQL_USER: montink
+      MYSQL_PASSWORD: montink
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_montink:/var/lib/mysql
+
+volumes:
+  mysql_montink:
+ 
+networks:
+  default:
+      name: mamura_network
+      external: true

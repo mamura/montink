@@ -1,0 +1,120 @@
+/* Topbar mais alta */
+/* Garante que a navbar tenha altura fixa */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main.container {
+    flex: 1; /* faz o conteúdo crescer e empurra o rodapé para baixo */
+}
+
+footer {
+    background-color: #212529;
+    border-top: none;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+
+.bg-main {
+    background-color: #d8d8d8 !important;
+}
+.navbar.topbar {
+    height: 100px !important;
+    align-items: center !important;
+}
+
+/* Centraliza verticalmente o conteúdo */
+.navbar.topbar .navbar-brand {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Barra de navegação horizontal clara */
+.secondary-nav {
+    background-color: #969ea7;
+    border-bottom: 1px solid #77808a;
+    padding: 0 !important;
+}
+
+.secondary-nav .nav-link {
+    color: #333;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.secondary-nav .nav-link:hover {
+    color: #007bff;
+}
+
+.secondary-nav .nav-link {
+    color: #333;
+    font-weight: 500;
+    transition: color 0.2s;
+     padding: 0.5rem 0.3rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+/* Hover com fundo da topbar (ou cor escura) */
+.secondary-nav .nav-link:hover {
+    background-color: #212529;
+    color: #fff;
+   
+}
+
+.secondary-nav .nav-link.active {
+    background-color: #212529;
+    color: #fff !important;
+}
+
+.btn-novo-produto {
+    background-color: #969ea7 !important;
+    border: none !important;
+    color: #333 !important;
+    font-weight: 500 !important;
+    border-radius: 0 !important;
+    padding: 0.5rem 1.2rem !important;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.btn-novo-produto:hover {
+    background-color: #212529 !important;
+    color: #fff !important;
+}
+
+.btn.btn-primaria {
+    background-color: #969ea7;
+    border: none;
+    color: #fff;
+    border-radius: 0;
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.btn.btn-primaria:hover {
+    background-color: #212529;
+    color: #fff;
+}
+
+/* Cabeçalho da tabela personalizado */
+.table thead th {
+    background-color: #212529;
+    color: #fff;
+    border-color: #212529;
+    vertical-align: middle;
+}
