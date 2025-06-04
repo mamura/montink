@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h4 m-0">Categorias</h1>
-    <a href="<?= site_url('categoria/create') ?>" class="btn btn-primary">+ Nova Categoria</a>
+    <a href="<?= site_url('categoria/create') ?>" class="btn btn-primaria">+ Nova Categoria</a>
 </div>
 
 <?php if (count($categorias) === 0): ?>

@@ -1,34 +1,40 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h4 m-0"><?= isset($attribute) ? 'Editar Atributo' : 'Novo Atributo' ?></h1>
-    <a href="<?= site_url('atributo') ?>" class="btn btn-outline-secondary">Voltar</a>
-</div>
+<h2><?= isset($atributo->id) ? 'Editar Atributo' : 'Novo Atributo' ?></h2>
 
-<form method="post" action="<?= site_url('atributo/store') ?>">
-    <?php if (isset($attribute)): ?>
-        <input type="hidden" name="id" value="<?= $attribute->id ?>">
-    <?php endif; ?>
-
+<form method="post" action="<?= site_url(isset($atributo->id) ? 'atributo/update/'.$atributo->id : 'atributo/store') ?>">
     <div class="mb-3">
         <label for="name" class="form-label">Nome do Atributo</label>
-        <input type="text" class="form-control" name="name" id="name" required
-               value="<?= $attribute->name ?? '' ?>">
+        <input type="text" name="name" id="name" class="form-control"
+               value="<?= isset($atributo->name) ? htmlspecialchars($atributo->name, ENT_QUOTES, 'UTF-8') : '' ?>">
     </div>
 
     <div class="mb-3">
-        <label for="input_type" class="form-label">Tipo de Entrada</label>
-        <select name="input_type" class="form-select" required>
-            <option value="text" <?= (isset($attribute) && $attribute->input_type == 'text') ? 'selected' : '' ?>>Texto</option>
-            <option value="number" <?= (isset($attribute) && $attribute->input_type == 'number') ? 'selected' : '' ?>>Número</option>
-            <option value="select" <?= (isset($attribute) && $attribute->input_type == 'select') ? 'selected' : '' ?>>Seleção</option>
+        <label for="input_type" class="form-label">Tipo</label>
+        <select name="input_type" id="input_type" class="form-control">
+            <option value="text" <?= (isset($atributo->input_type) && $atributo->input_type === 'text') ? 'selected' : '' ?>>Texto</option>
+            <option value="select" <?= (isset($atributo->input_type) && $atributo->input_type === 'select') ? 'selected' : '' ?>>Seleção</option>
+            <option value="number" <?= (isset($atributo->input_type) && $atributo->input_type === 'number') ? 'selected' : '' ?>>Número</option>
         </select>
     </div>
 
     <div class="mb-3">
-        <label for="values" class="form-label">Valores (separados por vírgula)</label>
-        <input type="text" class="form-control" name="values" id="values"
-               placeholder="Ex: P,M,G"
-               value="<?= isset($attribute->values) ? implode(',', $attribute->values) : '' ?>">
+        <label for="category_id" class="form-label">Categoria</label>
+        <select name="category_id" id="category_id" class="form-control">
+            <?php foreach ($categorias as $cat): ?>
+                <option value="<?= $cat->id ?>"
+                        <?= (isset($atributo->category_id) && $atributo->category_id == $cat->id) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($cat->name, ENT_QUOTES, 'UTF-8') ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
     </div>
 
-    <button type="submit" class="btn btn-primaria">Salvar</button>
+    <div class="mb-3">
+        <label for="options" class="form-label">Valores (opções)</label>
+        <input type="text" name="options" id="options" class="form-control"
+               value="<?= isset($atributo->options) ? htmlspecialchars(implode(',', $atributo->options), ENT_QUOTES, 'UTF-8') : '' ?>">
+        <small class="form-text text-muted">Separe os valores por vírgula (ex: P,M,G)</small>
+    </div>
+
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="<?= site_url('atributo') ?>" class="btn btn-secondary">Cancelar</a>
 </form>

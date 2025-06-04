@@ -39,8 +39,8 @@ class Atributo extends CI_Controller {
             show_404();
         }
 
-        $data['title'] = 'Editar Atributo';
-        $data['atributo'] = $atributo;
+        $data['title']      = 'Editar Atributo';
+        $data['atributo']   = $atributo;
         $data['categorias'] = $this->Categoria_model->get_all();
 
         $this->load->view('layouts/main', [
