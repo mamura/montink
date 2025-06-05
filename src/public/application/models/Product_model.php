@@ -16,6 +16,18 @@ class Product_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function allWithVariants()
+    {
+        $this->db->select('p.*, pv.id as variant_id, pv.price');
+        $this->db->from('products p');
+        $this->db->join('(SELECT MIN(id) as id, product_id FROM product_variants GROUP BY product_id) as first_variant', 'first_variant.product_id = p.id', 'left');
+        $this->db->join('product_variants pv', 'pv.id = first_variant.id', 'left');
+        $this->db->order_by('p.id', 'desc');
+
+        return $this->db->get()->result();
+    }
+
+
     public function get($id)
     {
         $this->db->select('products.*, categories.name as category_name');
