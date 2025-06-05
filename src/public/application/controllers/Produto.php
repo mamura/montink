@@ -8,6 +8,7 @@ class Produto extends CI_Controller
         parent::__construct();
         $this->load->model('Product_model');
         $this->load->model('Categoria_model');
+        $this->load->model('Attribute_model');
         $this->load->library('form_validation');
     }
 
@@ -47,7 +48,13 @@ class Produto extends CI_Controller
             'category_id' => $this->input->post('category_id')
         ];
 
-        $this->Product_model->insert($data);
+        $product_id = $this->Product_model->insert($data);
+
+        $variantes = $this->input->post('variantes');
+
+        if (!empty($variantes)) {
+            $this->Product_model->insert_variants($product_id, $variantes);
+        }
 
         redirect('produto');
     }
@@ -55,15 +62,24 @@ class Produto extends CI_Controller
     public function edit($id)
     {
         $produto = $this->Product_model->get($id);
-        if (!$produto) show_404();
 
-        $data['title'] = 'Editar Produto';
-        $data['produto'] = $produto;
-        $data['categorias'] = $this->Categoria_model->get_all();
+        if (!$produto) {
+            show_404();
+        }
+
+        $variantes = $this->Product_model->get_variants($id);
+        $categorias = $this->Categoria_model->get_all();
+        
+        $data = [
+            'produto'    => $produto,
+            'variantes'  => $variantes,
+            'categorias' => $categorias
+        ];
 
         $this->load->view('layouts/main', [
-            'contents' => $this->load->view('produtos/form', $data, true)
+            'contents' => $this->load->view('produtos/form', $data, true),
         ]);
+
     }
 
     public function update($id)
@@ -83,8 +99,14 @@ class Produto extends CI_Controller
 
         $this->Product_model->update($id, $data);
 
+        $variantes = $this->input->post('variantes');
+        if (!empty($variantes)) {
+            $this->Product_model->update_variants($id, $variantes);
+        }
+
         redirect('produto');
     }
+
 
     public function delete($id)
     {

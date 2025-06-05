@@ -15,6 +15,21 @@ class Attribute_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_by_category_with_options($categoria_id)
+    {
+        $this->db->where('category_id', $categoria_id);
+        $atributos = $this->db->get('attributes')->result();
+
+        foreach ($atributos as &$atributo) {
+            $this->db->where('attribute_id', $atributo->id);
+            $opcoes = $this->db->get('attribute_options')->result();
+            $atributo->options = $opcoes;
+        }
+
+        return $atributos;
+    }
+
+
     public function get($id)
     {
         $attribute = $this->db->get_where('attributes', ['id' => $id])->row();

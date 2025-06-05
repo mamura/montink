@@ -101,4 +101,11 @@ class Atributo extends CI_Controller {
         $this->Attribute_model->delete($id);
         redirect('atributo');
     }
+
+    public function por_categoria($categoria_id)
+    {
+        $atributos = $this->Attribute_model->get_by_category_with_options($categoria_id);
+        echo json_encode($atributos);
+    }
+
 }

@@ -53,12 +53,12 @@ class Product_model extends CI_Model
         return $this->db->get_where('products', ['category_id' => $category_id])->result();
     }
 
-    private function get_variants($product_id)
+    public function get_variants($product_id)
     {
         $this->db->select('pv.*, s.quantity');
         $this->db->from('product_variants pv');
-        $this->db->join('stock s', 's.varian_id = pv.id', 'left');
-        $this->db->where('pv.variant_id', $product_id);
+        $this->db->join('stock s', 's.variant_id = pv.id', 'left');
+        $this->db->where('pv.product_id', $product_id);
         $variants = $this->db->get()->result();
 
         foreach ($variants as &$variant) {
@@ -68,13 +68,54 @@ class Product_model extends CI_Model
         return $variants;
     }
 
-    private function get_variant_attributes($variant_id)
+    public function get_variant_attributes($variant_id)
     {
-        $this->db->select('ao.id, ao.value, a.name as attribute');
+        $this->db->select('pvv.id, a.id as attribute_id, a.name as attribute, ao.id as option_id, ao.value');
         $this->db->from('product_variant_values pvv');
         $this->db->join('attribute_options ao', 'ao.id = pvv.attribute_option_id');
         $this->db->join('attributes a', 'a.id = ao.attribute_id');
         $this->db->where('pvv.variant_id', $variant_id);
         return $this->db->get()->result();
+    }
+
+    public function insert_variants($product_id, $variantes)
+    {
+        foreach ($variantes as $var) {
+            $data = [
+                'product_id' => $product_id,
+                'sku'        => $var['sku'],
+                'price'      => $var['price'],
+            ];
+
+            $this->db->insert('product_variants', $data);
+            $variant_id = $this->db->insert_id();
+
+            $this->db->insert('stock', [
+                'variant_id' => $variant_id,
+                'quantity'  => $var['stock'],
+            ]);
+
+            if (!empty($var['atributos'])) {
+                foreach ($var['atributos'] as $atributo) {
+                    $this->db->insert('product_variant_values', [
+                        'variant_id'          => $variant_id,
+                        'attribute_option_id' => $atributo['opcao_id'],
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function update_variants($product_id, $variantes)
+    {
+        $query              = $this->db->select('id')->where('product_id', $product_id)->get('product_variants');
+        $existingVariants   = $query->result();
+
+         foreach ($existingVariants as $variant) {
+            $this->db->where('variant_id', $variant->id)->delete('product_variant_values');
+        }
+ 
+        $this->db->where('product_id', $product_id)->delete('product_variants');
+        $this->insert_variants($product_id, $variantes);
     }
 }
