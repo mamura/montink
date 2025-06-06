@@ -8,7 +8,7 @@
                     <h5><?= htmlspecialchars($produto->name) ?></h5>
                     <p><?= htmlspecialchars($produto->description) ?></p>
                     <p><strong>R$ <?= number_format($produto->price, 2, ',', '.') ?></strong></p>
-                    <form method="post" action="<?= site_url('carrinho/adicionar') ?>">
+                    <form method="post" action="<?= site_url('produto/show/' . $produto->id) ?>">
                         <input type="hidden" name="variant_id" value="<?= $produto->variant_id ?>">
                         <button type="submit" class="btn btn-primary">Comprar</button>
                     </form>

@@ -22,6 +22,19 @@ class Produto extends CI_Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $this->load->model('Product_model');
+
+        $data['produto'] = $this->Product_model->get($id);
+        if (!$data) show_404();
+
+        $this->load->view('layouts/main', [
+            'contents' => $this->load->view('produtos/show', $data, true)
+        ]);
+        
+    }
+
     public function create()
     {
         $data['title'] = 'Novo Produto';

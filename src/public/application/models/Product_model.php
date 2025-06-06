@@ -44,6 +44,16 @@ class Product_model extends CI_Model
         return $product;
     }
 
+    public function get_by_variant($variant_id)
+    {
+        $this->db->select('p.name, pv.sku, pv.price');
+        $this->db->from('product_variants pv');
+        $this->db->join('products p', 'p.id = pv.product_id');
+        $this->db->where('pv.id', $variant_id);
+        return $this->db->get()->row();
+    }
+
+
     public function insert($data)
     {
         $this->db->insert('products', $data);
