@@ -31,13 +31,13 @@
         <div class="container d-flex justify-content-end">
             <ul class="navbar-nav flex-row gap-3">
                 <li class="nav-item">
-                    <a class="nav-link <?= $current === 'product' ? 'active' : '' ?>" href="<?= site_url('product') ?>">Produtos</a>
+                    <a class="nav-link <?= $current === 'home' ? 'active' : '' ?>" href="<?= site_url('home') ?>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $current === 'cart' ? 'active' : '' ?>" href="<?= site_url('cart') ?>">Carrinho</a>
+                    <a class="nav-link <?= $current === 'produto' ? 'active' : '' ?>" href="<?= site_url('produto') ?>">Produtos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $current === 'order' ? 'active' : '' ?>" href="<?= site_url('order') ?>">Pedidos</a>
+                    <a class="nav-link <?= $current === 'categoria' ? 'active' : '' ?>" href="<?= site_url('categoria') ?>">Categorias</a>
                 </li>
             </ul>
         </div>
